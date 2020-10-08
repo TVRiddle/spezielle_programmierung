@@ -1,0 +1,50 @@
+{
+  "data": {
+    "cars": [
+      {
+        "name": "Kaefer",
+        "number_of_seats": 4,
+        "color": "yellow",
+        "brand": "VW"
+      },
+      {
+        "name": "991",
+        "number_of_seats": 4,
+        "color": "red",
+        "brand": "Porsche"
+      },
+      {
+        "name": "AMG",
+        "number_of_seats": 5,
+        "color": "white",
+        "brand": "Mercedes"
+      },
+      {
+        "name": "Q7",
+        "number_of_seats": 5,
+        "color": "black",
+        "brand": "AUDI"
+      },
+      {
+        "name": "i7",
+        "number_of_seats": 2,
+        "color": "blue",
+        "brand": "BMW"
+      }
+    ]
+  },
+  "customers": [
+    {
+      "first_name": "Larissa",
+      "last_name": "Tiantcheu"
+    },
+    {
+      "first_name": "Christoph",
+      "last_name": "Ostrzinski"
+    },
+    {
+      "first_name": "Matthias",
+      "last_name": "Kronenberg"
+    }
+  ]
+}

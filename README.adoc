@@ -1,0 +1,38 @@
+= Team 5
+:author: Tiantcheu Larissa <s0561829@htw-berlin.de>
+:author: Ostrzinski Christoph <s0568880@htw-berlin.de>
+:author: Matthias Kronenberg <s0571096@htw-berlin.de>
+
+:toc-title: Inhaltsverzeichnis
+
+// enable table-of-contents
+:toc:
+:toclevels: 4
+
+== Lecture Sheet 1
+
+=== Aufgabe 1 - List of requirements
+
+* 4 Gruppen angelegt Car, Customer, Booking, BookingList
+* Car: name, color, number_of_seats, brand
+* Customer: first_name, last_name
+* Booking: car, customer, start, end
+* BookingList: bookings <- muss checken, ob car bereits gebucht (bisher nur anhand des Namens)
+
+=== Aufgabe 2 - Coding
+
+* Pro Gruppe aus den Requirements haben wir eine Classe und die dazugehörigen Attribute angelegt
+* Ein grundlegende Projektstruktur wurde erstellt
+* Für jede Klasse wurde eine "to_json"-Methode implementiert um das spätere Interagieren mit dem Server zu erleichtern
+
+=== Aufgabe 3 - Testdata
+
+* In einer gesonderten Datei (.car-data.json) haben wir Testdaten hinterlegt.
+* Über die Main Methode haben wir die Daten eingelesen.
+** Als erstes werden gemäß der Testdaten-Datei die Car-Objekte erzeugt.
+** Als zweites werden gemäß der Testdaten-Datei die Customer-Objekte erzeugt.
+** Jedem Customer wird ein zufälliges Auto zugewiesen.
+*** dies geschieht über das Erstellen eines Booking-Objektes
+** Anschließend wird das Booking-Objekt der Liste hinzugefügt
+*** dabei wird überprüft, ob das Auto bereits vermietet wurde
+* Ein Test, ob das Doppelte Vermieten eines Autos möglich ist, wurde hinzugefügt
