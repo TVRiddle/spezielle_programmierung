@@ -1,13 +1,12 @@
 = Team 5
+:toc-title: Inhaltsverzeichnis
+:toclevels: 4
+:toc:
 :author: Tiantcheu Larissa <s0561829@htw-berlin.de>
 :author: Ostrzinski Christoph <s0568880@htw-berlin.de>
 :author: Matthias Kronenberg <s0571096@htw-berlin.de>
 
-:toc-title: Inhaltsverzeichnis
 
-// enable table-of-contents
-:toc:
-:toclevels: 4
 
 == Lecture Sheet 1
 
