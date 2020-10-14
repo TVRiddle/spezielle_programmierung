@@ -43,6 +43,4 @@ def main():
         print(booking.to_json())
 
 
-
-
 main()
