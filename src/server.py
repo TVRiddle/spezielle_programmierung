@@ -20,6 +20,7 @@ cars = []
 
 now = datetime.datetime.now()
 
+
 def load_json():
     with open(path) as data:
         data = json.load(data)
@@ -46,24 +47,29 @@ def load_json():
     for booking in booking_list.bookings:
         print(booking.to_json())
 
+
 # Larissa
 @app.route('/customers')
 def get_all_customers():
-    return 'Hello, World!'
+    return jsonify(customers)
+
 
 # Larissa
 @app.route('/cars')
 def get_all_cars():
-    return 'Hello, World!'
+    return jsonify(cars)
+
 
 @app.route('/customer/<first_name>/<last_name>/book/', methods=["POST"])
 def book_car(first_name, last_name):
     payload = request.get_json()
     car_id = payload["card_id"]
-    car_assigned = booking_list.addBooking(Booking(car_id, Customer(first_name, last_name), now, now + datetime.timedelta(random.randint(1, 100))))
+    car_assigned = booking_list.addBooking(
+        Booking(car_id, Customer(first_name, last_name), now, now + datetime.timedelta(random.randint(1, 100))))
     if not car_assigned:
         return 406
     return 200
+
 
 @app.route('/customer/<first_name>/<last_name>/history')
 def get_history(first_name, last_name):
@@ -72,6 +78,7 @@ def get_history(first_name, last_name):
         if (first_name == booking.customer.first_name and last_name == booking.customer.last_name):
             found_bookings.append(booking)
     return jsonify(found_bookings)
+
 
 if __name__ == '__main__':
     # Start webserver
