@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import jsonify
 from Booking import Booking
 from BookingList import BookingList
 from Car import Car
@@ -70,7 +71,7 @@ def get_history(first_name, last_name):
     for booking in booking_list:
         if (first_name == booking.customer.first_name and last_name == booking.customer.last_name):
             found_bookings.append(booking)
-    return found_bookings
+    return jsonify(found_bookings)
 
 if __name__ == '__main__':
     # Start webserver
