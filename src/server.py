@@ -5,6 +5,7 @@ from Booking import Booking
 from BookingList import BookingList
 from Car import Car
 from Customer import Customer
+import os
 
 import json
 import datetime
@@ -12,17 +13,17 @@ import random
 
 app = Flask(__name__)
 
-path = "../resouces/car_data.json"
-
 customers = []
 booking_list = BookingList()
 cars = []
 
 now = datetime.datetime.now()
 
-
+@app.route('/init')
 def load_json():
-    with open(path) as data:
+    SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
+    json_url = os.path.join(SITE_ROOT, "resources", "car_data.json")
+    with open(json_url) as data:
         data = json.load(data)
         cars_import = data["data"]["cars"]
         customers_import = data["customers"]
@@ -47,45 +48,47 @@ def load_json():
     for booking in booking_list.bookings:
         print(booking.to_json())
 
+    return "Done"
 
 # Larissa
 @app.route('/customers')
 def get_all_customers():
-    return jsonify(customers)
-
+    load_json()
+    return jsonify([customer.__dict__ for customer in customers])
 
 # Larissa
 @app.route('/cars')
 def get_all_cars():
-    return jsonify(cars)
+    load_json()
+    return jsonify([car.__dict__ for car in cars])
 
-
-@app.route('/customer/<first_name>/<last_name>/book/', methods=["POST"])
-def book_car(first_name, last_name):
-    payload = request.get_json()
-    car_id = payload["card_id"]
-    car_assigned = booking_list.addBooking(
-        Booking(car_id, Customer(first_name, last_name), now, now + datetime.timedelta(random.randint(1, 100))))
+@app.route('/customer/<first_name>/<last_name>/book/<car_id>', methods=["GET"])
+def book_car(first_name, last_name, car_id):
+    load_json()
+    for car in cars:
+        if car.name == car_id:
+            car_assigned = booking_list.addBooking(
+                Booking(car, Customer(first_name, last_name), now, now + datetime.timedelta(random.randint(1, 100))))
+            break
     if not car_assigned:
-        return 406
-    return 200
-
+        return "Auto bereits gebucht."
+    return "Auto wurde gebucht."
 
 @app.route('/customer/<first_name>/<last_name>/history')
 def get_history(first_name, last_name):
+    load_json()
     found_bookings = BookingList()
     for booking in booking_list:
+        print("Hallo")
         if (first_name == booking.customer.first_name and last_name == booking.customer.last_name):
             found_bookings.append(booking)
-    return jsonify(found_bookings)
-
+    return jsonify([booking.__dict__ for booking in found_bookings])
 
 if __name__ == '__main__':
     # Start webserver
     for i in range(100):
         try:
             app.run(host="0.0.0.0", port=8080 + i, debug=True)
-            load_json()
             break
         except OSError:
             pass
