@@ -1,8 +1,20 @@
 from flask import Flask
 app = Flask(__name__)
 
-@app.route('/<int:id>')
-def hello_world(id):
+@app.route('/customers')
+def get_all_customers():
+    return 'Hello, World!'
+
+@app.route('/cars')
+def get_all_cars():
+    return 'Hello, World!'
+
+@app.route('/customer/<id>/book/<car_id>', methods=["POST"])
+def book_car(id, car_id):
+    return 'Hello, World!'
+
+@app.route('/customer/<id>/history')
+def get_history(id):
     return 'Hello, World!'
 
 if __name__ == '__main__':
