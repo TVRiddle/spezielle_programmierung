@@ -1,5 +1,10 @@
 from flask import Flask
 app = Flask(__name__)
+from flask import request
+
+import json
+import datetime
+import random
 
 from Booking import Booking
 from BookingList import BookingList
@@ -11,6 +16,8 @@ path = "../resouces/car_data.json"
 customers = []
 booking_list = BookingList()
 cars = []
+
+now = datetime.datetime.now()
 
 def load_json():
     with open(path) as data:
@@ -49,14 +56,14 @@ def get_all_customers():
 def get_all_cars():
     return 'Hello, World!'
 
-
-@app.route('/customer/<first_name>/<last_name>/book/<car_id>', methods=["POST"])
-def book_car(first_name, last_name, car_id):
-    for customer in customers:
-        if customer["first_name"] == first_name and customer["last_name"]:
-             
-
-    return 'Hello, World!'
+@app.route('/customer/<first_name>/<last_name>/book/', methods=["POST"])
+def book_car(first_name, last_name):
+    payload = request.get_json()
+    car_id = payload["card_id"]
+    car_assigned = booking_list.addBooking(Booking(car_id, Customer(first_name, last_name), now, now + datetime.timedelta(random.randint(1, 100))))
+    if not car_assigned:
+        return 406
+    return 200
 
 @app.route('/customer/<first_name>/<last_name>/history')
 def get_history(first_name, last_name):
