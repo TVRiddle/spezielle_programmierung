@@ -1,13 +1,16 @@
 from flask import Flask
 app = Flask(__name__)
 
+#Larissa
 @app.route('/customers')
 def get_all_customers():
     return 'Hello, World!'
 
+#Larissa
 @app.route('/cars')
 def get_all_cars():
     return 'Hello, World!'
+
 
 @app.route('/customer/<id>/book/<car_id>', methods=["POST"])
 def book_car(id, car_id):
