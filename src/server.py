@@ -1,4 +1,3 @@
-from flask import Flask
 app = Flask(__name__)
 from flask import request
 
@@ -10,6 +9,8 @@ from Booking import Booking
 from BookingList import BookingList
 from Car import Car
 from Customer import Customer
+
+app = Flask(__name__)
 
 path = "../resouces/car_data.json"
 
@@ -46,12 +47,13 @@ def load_json():
         print(booking.to_json())
 
 
-#Larissa
+# Larissa
 @app.route('/customers')
 def get_all_customers():
     return 'Hello, World!'
 
-#Larissa
+
+# Larissa
 @app.route('/cars')
 def get_all_cars():
     return 'Hello, World!'
@@ -65,9 +67,15 @@ def book_car(first_name, last_name):
         return 406
     return 200
 
+
 @app.route('/customer/<first_name>/<last_name>/history')
 def get_history(first_name, last_name):
-    return 'Hello, World!'
+    found_bookings = BookingList()
+    for booking in booking_list:
+        if (first_name == booking.customer.first_name and last_name == booking.customer.last_name):
+            found_bookings.append(booking)
+    return found_bookings
+
 
 if __name__ == '__main__':
     # Start webserver

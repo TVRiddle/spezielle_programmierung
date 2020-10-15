@@ -12,3 +12,11 @@ class BookingList(list):
                 return False
         self.bookings.append(booking)
         return True
+
+    def to_json(self):
+        string = '{"BookingList": ['
+        for booking in self.bookings:
+            string = string + booking.to_json() + ","
+        string = string[:-1]
+        string = string + '"]}'
+        return string
