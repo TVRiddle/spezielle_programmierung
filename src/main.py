@@ -7,7 +7,7 @@ from BookingList import BookingList
 from Car import Car
 from Customer import Customer
 
-path = "../resouces/car_data.json"
+path = "./resources/car_data.json"
 
 customers = []
 booking_list = BookingList()
