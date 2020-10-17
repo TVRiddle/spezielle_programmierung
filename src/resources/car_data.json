@@ -5,31 +5,36 @@
         "name": "Kaefer",
         "number_of_seats": 4,
         "color": "yellow",
-        "brand": "VW"
+        "brand": "VW",
+        "is_booked": false
       },
       {
         "name": "991",
         "number_of_seats": 4,
         "color": "red",
-        "brand": "Porsche"
+        "brand": "Porsche",
+        "is_booked": false
       },
       {
         "name": "AMG",
         "number_of_seats": 5,
         "color": "white",
-        "brand": "Mercedes"
+        "brand": "Mercedes",
+        "is_booked": false
       },
       {
         "name": "Q7",
         "number_of_seats": 5,
         "color": "black",
-        "brand": "AUDI"
+        "brand": "AUDI",
+        "is_booked": false
       },
       {
         "name": "i7",
         "number_of_seats": 2,
         "color": "blue",
-        "brand": "BMW"
+        "brand": "BMW",
+        "is_booked": false
       }
     ]
   },
