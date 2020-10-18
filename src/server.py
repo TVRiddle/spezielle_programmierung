@@ -82,8 +82,7 @@ def get_history(first_name, last_name):
     for booking in booking_list.bookings:
         if first_name == booking.customer.first_name and last_name == booking.customer.last_name:
             found_bookings.append(copy.deepcopy(booking))
-    print(dump(found_bookings))
-    return jsonify(booking.__dict__ for booking in found_bookings)
+    return jsonify(booking.__dict__ for booking in booking_list.bookings)
 
 
 if __name__ == '__main__':
