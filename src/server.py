@@ -30,7 +30,7 @@ def load_json():
         json_url = os.path.join(SITE_ROOT, "resources", "car_data.json")
         with open(json_url) as data:
             data = json.load(data)
-            cars_import = data["data"]["cars"]
+            cars_import = data["cars"]
             customers_import = data["customers"]
 
             for car in cars_import:
