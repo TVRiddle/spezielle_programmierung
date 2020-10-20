@@ -6,7 +6,87 @@
 :author: Ostrzinski Christoph <s0568880@htw-berlin.de>
 :author: Matthias Kronenberg <s0571096@htw-berlin.de>
 
+== Lecture Sheet 2
 
+=== Vor- und Nachteile von Docker
+Mit Docker wir Flask automatisch installiert. Das Betriebssystem im Hintergrund ist bei allen Teammitgliedern das gleiche. Dadurch können
+beispielsweise keine Probleme durch Betriebssystemspezifische Pfadangaben enstehen.
+
+=== Setup ohne Docker
+An unserem Setup hätte sich ohne Docker bisher nichts geändert.
+
+=== Dokumentation
+Wir haben 5 HTTP Endpoints in Flask festgelegt. Mit /init wird die JSON Datei mit den Beispieldaten eingelesen. Da Flask
+zustandlos ist, muss bei jedem weiteren Aufrufen eines Endpoints die JSON Datei erneut eingelesen werden. Mithilfe der JSON Testdaten
+versuchen wir jedem Kunden ein Auto zuzuordnen, solange es noch nicht vergeben ist.
+
+Mit den Endpoints /customer und /cars werden alle im System vorhandenen Kunden und Autos ausgegeben. Dazu mussten wir die Liste
+mit dem __dict__ Attribut aufrufen und mit einer Schleife durchlaufen. Der Output wurde dann per jsonify geparst und ausgegeben.
+
+Beim Endpoint /customer/<first_name>/<last_name>/book/<car_id> nehmen wir die car_id und gehen alle 5 Autonamen durch und versuchen,
+das passende Auto zu finden. Das Auto wird, falls es nicht bereits gebucht ist, auf den angegebene Namen gebucht.
+
+Beim Endpoint /customer/<first_name>/<last_name>/history durchlaufen wir die customers in unseren JSON Testdaten und geben dann
+per jsonifu die passende Buchungshistorie aus.
+
+....
+
+{
+  "data": {
+    "cars": [
+      {
+        "name": "Kaefer",
+        "number_of_seats": 4,
+        "color": "yellow",
+        "brand": "VW",
+        "is_booked": false
+      },
+      {
+        "name": "991",
+        "number_of_seats": 4,
+        "color": "red",
+        "brand": "Porsche",
+        "is_booked": false
+      },
+      {
+        "name": "AMG",
+        "number_of_seats": 5,
+        "color": "white",
+        "brand": "Mercedes",
+        "is_booked": false
+      },
+      {
+        "name": "Q7",
+        "number_of_seats": 5,
+        "color": "black",
+        "brand": "AUDI",
+        "is_booked": false
+      },
+      {
+        "name": "i7",
+        "number_of_seats": 2,
+        "color": "blue",
+        "brand": "BMW",
+        "is_booked": false
+      }
+    ]
+  },
+  "customers": [
+    {
+      "first_name": "Larissa",
+      "last_name": "Tiantcheu"
+    },
+    {
+      "first_name": "Christoph",
+      "last_name": "Ostrzinski"
+    },
+    {
+      "first_name": "Matthias",
+      "last_name": "Kronenberg"
+    }
+  ]
+}
+....
 
 == Lecture Sheet 1
 
