@@ -1,7 +1,6 @@
 import copy
 
 from flask import Flask
-from flask import request
 from flask import jsonify
 from Booking import Booking
 from BookingList import BookingList
@@ -23,9 +22,8 @@ data_have_to_be_loaded = True
 now = datetime.datetime.now()
 
 
-@app.route('/init')
 def load_json():
-    if(len(cars) == 0):
+    if (len(cars) == 0):
         SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
         json_url = os.path.join(SITE_ROOT, "resources", "car_data.json")
         with open(json_url) as data:
@@ -43,19 +41,20 @@ def load_json():
                 car_assigned = False
                 while not car_assigned:
                     car = cars[random.randint(0, len(cars) - 1)]
-                    car_assigned = booking_list.addBooking(
-                        Booking(car, new_Customer, now, now + datetime.timedelta(random.randint(1, 100))))
+                    car.is_booked = True
+                    new_booking = Booking(car.name, new_Customer.first_name, new_Customer.last_name, now,
+                                          now + datetime.timedelta(random.randint(1, 100)))
+                    print(new_booking)
+                    car_assigned = booking_list.addBooking(new_booking)
     return "Done"
 
 
-# Larissa
 @app.route('/customers')
 def get_all_customers():
     load_json()
     return jsonify([customer.__dict__ for customer in customers])
 
 
-# Larissa
 @app.route('/cars')
 def get_all_cars():
     load_json()
@@ -68,7 +67,8 @@ def book_car(first_name, last_name, car_id):
     for car in cars:
         if car.name == car_id:
             car_assigned = booking_list.addBooking(
-                Booking(car, Customer(first_name, last_name), now, now + datetime.timedelta(random.randint(1, 100))))
+                Booking(car.name, first_name, last_name, now, now + datetime.timedelta(random.randint(1, 100))))
+            car.is_booked = True
             break
     if not car_assigned:
         return "Auto bereits gebucht."
@@ -80,9 +80,10 @@ def get_history(first_name, last_name):
     load_json()
     found_bookings = []
     for booking in booking_list.bookings:
-        if first_name == booking.customer.first_name and last_name == booking.customer.last_name:
+        if first_name == booking.customer_first_name and last_name == booking.customer_last_name:
             found_bookings.append(copy.deepcopy(booking))
-    return jsonify(booking.__dict__ for booking in booking_list.bookings)
+
+    return jsonify([booking.__dict__ for booking in found_bookings])
 
 
 if __name__ == '__main__':
