@@ -5,19 +5,25 @@
     <link rel="stylesheet" href="./style/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-    <p>test3</p>
+<button type="submit" onclick="test()">Test</button>
+<p id="test"></p>
 <div>
-    <form>
-
+    <form action="#">
+        <label>Get all cars</label>
+        <input class="btn" type="submit" onclick="showCars()" value="Get'em all"/>
     </form>
     <div>
-        <table id="cars">
+        <table class="table" id="cars">
 
         </table>
     </div>
 </div>
 </body>
 <script>
+    function test() {
+        document.getElementById("test").innerHTML = httpGet("/api/cars");
+    }
+
     function httpGet(url) {
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open("GET", url, false);
@@ -25,8 +31,57 @@
         return xmlHttp.responseText;
     }
 
-    let result = httpGet("/api/cars");
-    document.getElementById("content").innerHTML = result;
+    function showCars() {
+        let result = httpGet("/api/cars");
+        let table = document.getElementById("cars");
+        let header = getHeader("cars");
+        table.append(header);
+
+        for (let car in result) {
+            let carElement = document.createElement('tr');
+
+            let name = document.createElement('td');
+            name.textContent = car.name;
+            let brand = document.createElement('td');
+            brand.textContent = car.brand;
+            let color = document.createElement('td');
+            color.textContent = car.color;
+            let booked = document.createElement('td');
+            booked.textContent = car.booked;
+            let seats = document.createElement('td');
+            seats.textContent = car.seats;
+            carElement.append(name);
+            carElement.append(brand);
+            carElement.append(color);
+            carElement.append(booked);
+            carElement.append(seats);
+
+            table.append(carElement);
+        }
+    }
+
+    function getHeader(kind) {
+        let header = document.createElement("tr");
+        switch (kind) {
+            case "cars":
+                let nameHeader = document.createElement("th");
+                nameHeader.textContent = "Name"
+                let brandHeader = document.createElement("th");
+                brandHeader.textContent = "Marke"
+                let colorHeader = document.createElement("th");
+                colorHeader.textContent = "Farbe"
+                let bookedHeader = document.createElement("th");
+                bookedHeader.textContent = "Gebucht"
+                let seatsHeader = document.createElement("th");
+                seatsHeader.textContent = "Anzahl Sitze";
+                header.append(nameHeader);
+                header.append(brandHeader);
+                header.append(colorHeader);
+                header.append(bookedHeader);
+                header.append(seatsHeader);
+        }
+        return header;
+    }
 </script>
 <script src="./style/bootstrap/js/bootstrap.min.js"></script>
 </html>
