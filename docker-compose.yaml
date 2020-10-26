@@ -1,13 +1,14 @@
 version: '3'
 services:
-backend:
-image: backend
-networks:
-- spezprog-network
-webapp:
-image: nginx
-networks:
-- spezprog-network
-volumes:
-- webapp/content:/usr/share/nginx/html
-	
+  backend:
+    image: backend
+    networks:
+      - spezprog-network
+  webapp:
+    image: nginx
+    networks:
+      - spezprog-network
+    ports:
+      -  8080:80
+    volumes:
+      - "./webapp/content/:/usr/share/nginx/html"
