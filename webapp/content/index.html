@@ -2,8 +2,31 @@
 <html>
 <head>
     <title>RentMeLtd.</title>
+    <link rel="stylesheet" href="./style/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-<p>funktioniert</p>
+    <p>test3</p>
+<div>
+    <form>
+
+    </form>
+    <div>
+        <table id="cars">
+
+        </table>
+    </div>
+</div>
 </body>
+<script>
+    function httpGet(url) {
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", url, false);
+        xmlHttp.send(null);
+        return xmlHttp.responseText;
+    }
+
+    let result = httpGet("/api/cars");
+    document.getElementById("content").innerHTML = result;
+</script>
+<script src="./style/bootstrap/js/bootstrap.min.js"></script>
 </html>

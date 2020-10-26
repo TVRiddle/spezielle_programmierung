@@ -1,14 +1,25 @@
 version: '3'
 services:
   backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: dockerfile
     image: backend
     networks:
       - spezprog-network
   webapp:
-    image: nginx
+    container_name: web
+    build:
+      context: ./webapp
+      dockerfile: dockerfile
+    image: webapp
     networks:
       - spezprog-network
     ports:
       -  8080:80
     volumes:
       - "./webapp/content/:/usr/share/nginx/html"
+networks:
+    spezprog-network:
+         name: spezprog-network

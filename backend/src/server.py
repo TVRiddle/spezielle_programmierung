@@ -32,11 +32,13 @@ def load_json():
             customers_import = data["customers"]
 
             for car in cars_import:
-                new_car = Car(car["name"], car["color"], car["number_of_seats"], car["brand"])
+                new_car = Car(car["name"], car["color"],
+                              car["number_of_seats"], car["brand"])
                 cars.append(new_car)
 
             for customer in customers_import:
-                new_Customer = Customer(customer["first_name"], customer["last_name"])
+                new_Customer = Customer(
+                    customer["first_name"], customer["last_name"])
                 customers.append(new_Customer)
                 car_assigned = False
                 while not car_assigned:
@@ -90,7 +92,8 @@ if __name__ == '__main__':
     # Start webserver
     for i in range(100):
         try:
-            app.run(host="0.0.0.0", port=8080 + i, debug=True, use_reloader=False)
+            app.run(host="0.0.0.0", port=4000 + i,
+                    debug=True, use_reloader=False)
             break
         except OSError:
             pass
