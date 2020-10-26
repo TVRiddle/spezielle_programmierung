@@ -73,8 +73,8 @@ def book_car(first_name, last_name, car_id):
             car.is_booked = True
             break
     if not car_assigned:
-        return "Auto bereits gebucht."
-    return "Auto wurde gebucht."
+        return "false"
+    return "true"
 
 
 @app.route('/customer/<first_name>/<last_name>/history')

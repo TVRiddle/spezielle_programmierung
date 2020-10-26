@@ -8,6 +8,8 @@ services:
     image: backend
     networks:
       - spezprog-network
+    ports:
+      - 4000:4000
   webapp:
     container_name: web
     build:
