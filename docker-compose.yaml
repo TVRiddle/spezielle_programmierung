@@ -1,5 +1,13 @@
-version: "3"
+version: '3'
 services:
-	backend:
-		image:
+backend:
+image: backend
+networks:
+- spezprog-network
+webapp:
+image: nginx
+networks:
+- spezprog-network
+volumes:
+- webapp/content:/usr/share/nginx/html
 	
