@@ -5,9 +5,10 @@
     <link rel="stylesheet" href="./style/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
+
 <button type="submit" onclick="test()">Test</button>
 <p id="test"></p>
-<div>
+<div class="container">
     <form action="#">
         <label>Get all cars</label>
         <input class="btn" type="submit" onclick="showCars()" value="Get'em all"/>
@@ -18,10 +19,44 @@
         </table>
     </div>
 </div>
+<div class="container">
+    <form action="#">
+        <label>Get all customers</label>
+        <input class="btn" type="submit" onclick="showCustomers()" value="Get'em all"/>
+    </form>
+    <div>
+        <table class="table" id="customers">
+
+        </table>
+    </div>
+</div>
 </body>
+<!-- Modal -->
+<div class="modal fade" id="modal-history" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./style/bootstrap/js/bootstrap.min.js"></script>
+
 <script>
     function test() {
-        document.getElementById("test").innerHTML = httpGet("/api/cars");
+        document.getElementById("test").innerHTML = httpGet("/api/customers");
     }
 
     function httpGet(url) {
@@ -31,25 +66,60 @@
         return xmlHttp.responseText;
     }
 
+    function showCustomers() {
+        let result = JSON.parse(httpGet("/api/customers"));
+        let table = document.getElementById("customers");
+        table.innerHTML = "";
+        let header = getHeader("customers");
+        table.append(header);
+
+        for (let i = 0; i < result.length; i++) {
+            let customer = result[i];
+            let customerElement = document.createElement('tr');
+            let vorname = document.createElement('td');
+            vorname.innerHTML = customer.first_name;
+            let nachname = document.createElement('td');
+            nachname.innerHTML = customer.last_name;
+            let tdHistoryButton = document.createElement('td');
+            let historyButton = document.createElement('button');
+            historyButton.innerHTML = "show history";
+            historyButton.classList = "btn btn-info";
+            historyButton.setAttribute("data-id", customer.first_name + "," + customer.last_name);
+            historyButton.addEventListener("click", showHistory)
+            tdHistoryButton.append(historyButton);
+
+            customerElement.append(vorname);
+            customerElement.append(nachname);
+            customerElement.append(tdHistoryButton);
+
+            table.append(customerElement);
+        }
+    }
+
+    function showHistory() {
+        console.log(this.getAttribute("data-id"));
+    }
+
     function showCars() {
-        let result = httpGet("/api/cars");
+        let result = JSON.parse(httpGet("/api/cars"));
         let table = document.getElementById("cars");
+        table.innerHTML = "";
         let header = getHeader("cars");
         table.append(header);
 
-        for (let car in result) {
+        for (let i = 0; i < result.length; i++) {
+            let car = result[i];
             let carElement = document.createElement('tr');
-
             let name = document.createElement('td');
-            name.textContent = car.name;
+            name.innerHTML = car.name;
             let brand = document.createElement('td');
-            brand.textContent = car.brand;
+            brand.innerHTML = car.brand;
             let color = document.createElement('td');
-            color.textContent = car.color;
+            color.innerHTML = car.color;
             let booked = document.createElement('td');
-            booked.textContent = car.booked;
+            booked.innerHTML = car.is_booked;
             let seats = document.createElement('td');
-            seats.textContent = car.seats;
+            seats.innerHTML = car.number_of_seats;
             carElement.append(name);
             carElement.append(brand);
             carElement.append(color);
@@ -65,23 +135,33 @@
         switch (kind) {
             case "cars":
                 let nameHeader = document.createElement("th");
-                nameHeader.textContent = "Name"
+                nameHeader.innerHTML = "Name";
                 let brandHeader = document.createElement("th");
-                brandHeader.textContent = "Marke"
+                brandHeader.innerHTML = "Marke";
                 let colorHeader = document.createElement("th");
-                colorHeader.textContent = "Farbe"
+                colorHeader.innerHTML = "Farbe";
                 let bookedHeader = document.createElement("th");
-                bookedHeader.textContent = "Gebucht"
+                bookedHeader.innerHTML = "Gebucht";
                 let seatsHeader = document.createElement("th");
-                seatsHeader.textContent = "Anzahl Sitze";
+                seatsHeader.innerHTML = "Anzahl Sitze";
                 header.append(nameHeader);
                 header.append(brandHeader);
                 header.append(colorHeader);
                 header.append(bookedHeader);
                 header.append(seatsHeader);
+                break;
+            case "customers":
+                let firstNameHeader = document.createElement("th");
+                firstNameHeader.innerHTML = "Vorname";
+                let lastNameHeader = document.createElement("th");
+                lastNameHeader.innerHTML = "Nachname";
+                let historyHeader = document.createElement("th");
+                historyHeader.innerHTML = "Buchungshistorie";
+                header.append(firstNameHeader);
+                header.append(lastNameHeader);
+                header.append(historyHeader);
         }
         return header;
     }
 </script>
-<script src="./style/bootstrap/js/bootstrap.min.js"></script>
 </html>
