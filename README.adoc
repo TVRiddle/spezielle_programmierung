@@ -8,9 +8,59 @@
 
 == Lecture Sheet 3
 
-=== Matzes Part
+=== Einsatz von Docker
 
-=== Christophs Part
+==== Webapp
+
+Durch das Bauen des Dockerimages ("./webapp/dockerfile") werden alle Inhalte aus dem Content-Ordner
+("./webapp/content/") in den Ordner ("/usr/share/nginx/html") des nginx Dockers kopiert, der beim Aufrufen über das
+Webfrontend aufgerufen wird.
+
+Für das Interagieren mit anderen Containern müssen die Configurationen überschrieben werden.
+Hierzu wird wenn der Container gebaut wird alles was im Ordner ("./webapp/config") liegt in den nginx-Config-Ordner
+("/etc/nginx/conf.d/default.conf") verschoben und überschreibt die dort liegenden "default.conf"-Datei.
+
+In der Config Datei ist ein Proxy hinterlegt der es dem nginx anweist den Path "/api/" auf den Backend-Container zu
+mappen.
+
+==== Backend
+
+Das Backend wurde für eine bessere Unterscheidung auf den Port 4000 gemapped.
+
+==== Docker-Compose
+
+Ab dieser Version wird eine Docker-Compose Datei mitgeliefert. Diese erlaub es die jeweiligen Docker gezielt und immer
+auf gleiche Weise hochzufahren und erstellt außerdem ein Netzwerk in dem die Container sich austauschen können.
+
+Aus Bequemlichkeit wird beim Hochfahren des Web-Dockers ein Volume-Mounting durchgeführt, welches erlaubt Änderungen am
+Forntend vorzunehmen ohne notwendigerweise das Image neu erstellen zu müssen.
+
+=== HTML Frontend
+
+ Zum Anzeigen aller Daten wird die "index.html" verwendet. Hierbei dient die oberste Leiste nur der Verschönerung und ist mit keinerlei Funktion versehen
+
+[#totalView]
+.Überblick über die Seite
+image::img/totalView.PNG[Overview,600]
+
+Zum Laden und Einfügen der Daten und der
+Interaktion zwischen Mensch und Server implementiert die "index.html" die "js/script.js"-Datei. Nach dem Laden der Seite
+werden alle freien Autos und alle Kunden geladen und in das Dropdown geladen. Dies verhindert eine fehlerhafte Eingabe.
+
+Beim Drücken eines Buttons wird jeweils die notwendige Request an den Backendserver gesendet und jeweiligen Daten aus
+der json-Antworten eingelesen und als Tabelle angezeigt.
+
+[#listView]
+.Ansicht der Daten als Liste
+image::img/history.PNG[History,600]
+
+Die Jeweilige Buchungshistorie eines einzelnen Kunden ist nach dem Anzeigen aller Kunden über einen Button der neben
+dem jeweiligen Namen erscheint.
+
+Das Erfolgreiche Buchen eines Autos wird mit einem Popup bestätigt.
+[#popup]
+.Popupansicht
+image::img/popup.PNG[Popup,600]
 
 == Lecture Sheet 2
 
