@@ -6,6 +6,16 @@
 :author: Ostrzinski Christoph <s0568880@htw-berlin.de>
 :author: Matthias Kronenberg <s0571096@htw-berlin.de>
 
+== Lecture Sheet 4
+
+=== MongoDB
+
+Zwei neue Services wurden hinzugefügt. Eine no sql mongoDB persistenten Speichern und Abrufen der Daten und MongoExpress
+als visuelle Oberfläche, damit die Daten besser eingesehen werden können.
+
+Die Datenbank und die Oberfläche wurden dem erstellten Netzwerk hinzugefügt und laufen neben den anderen Docker
+Containern.
+
 == Lecture Sheet 3
 
 === Einsatz von Docker

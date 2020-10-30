@@ -1,11 +1,20 @@
-import pymongo
 from pymongo import MongoClient
 
-cluster = MongoClient("mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb")
-# cluster = MongoClient("mongodb://localhost:4444/?compressors=disabled&gssapiServiceName=mongodb")
-db = cluster["test"]
-collection = db["test"]
+# Das stimmt nur so halb... wenn man mit python von außen zugreifen möchte. In der Dockerumgebung muss dies
+# wahrscheinlich angepasst werden. Der standard port von MongoDB ist 27017. Host müsste der name des DockerContainers
+# sein. Also "mongo"
+MONGODB_HOST = 'mongodb://root:example@localhost:4444'
+DB_NAME = 'RentMe'
+CAR_COLLECTION = 'cars'
+CUSTOMER_COLLECTION = 'customers'
 
-bit = {"name": "test"}
+client = MongoClient(MONGODB_HOST)
+db = client[DB_NAME]
 
-collection.insert_one(bit)
+
+
+def getAllCustomers():
+    collection = db[CUSTOMER_COLLECTION]
+    allCustomers = collection.find({})
+    for customer in allCustomers:
+        print(customer)

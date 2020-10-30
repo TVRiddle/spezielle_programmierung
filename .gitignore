@@ -1,5 +1,10 @@
+# Intellij
 *.idea
 .DS_Store
 
 # ignorier alle Dateien mit der Erweiterung ".pyc"
 *.pyc
+
+# Datenbank ausschließen
+**/db
+*.wt
