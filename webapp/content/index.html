@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>RentMeLtd.</title>
+    <link rel="stylesheet" href="./style/bootstrap/css/bootstrap.min.css">
+</head>
+<body onload="loadData()">
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-dark border-bottom">
+    <h5 class="my-0 mr-md-auto font-weight-normal">
+        <img src="img/pic.jpg" width="50" height="50">
+        <p class="d-inline mr-3 text-white text-"> RentMeLtd.</p>
+    </h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-success" href="#">Kunde werden</a>
+        <a class="p-2 text-success" href="#">Unsere Autos</a>
+        <a class="p-2 text-success" href="#">Über uns</a>
+    </nav>
+    <input class="btn btn-light" value="login">
+</div>
+
+<div class="container d-flex flex-column align-items-center ">
+    <div class="form-group row m-3">
+        <form action="#">
+            <label class="mr-3">Get all cars</label>
+            <input class="btn btn-primary" type="submit" onclick="showCars()" value="Get'em all"/>
+        </form>
+    </div>
+    <div class="row m-3">
+        <div>
+            <table class="table" id="cars">
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container-fluid d-flex flex-column align-items-center">
+    <div class="form-group row m-3">
+        <form action="#">
+            <label class="mr-3">Get all customers</label>
+            <input class="btn btn-primary" type="submit" onclick="showCustomers()" value="Get'em all"/>
+        </form>
+    </div>
+    <div class="row m-3">
+        <div>
+            <table class="table" id="customers">
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container-fluid d-flex flex-column align-items-center">
+    <div class="form-group row m-3">
+        <form action="#" >
+            <label>Alle Kunden</label>
+            <select class="mr-3" id="availableCustomers"></select>
+            <label>Alle verfügbaren Autos</label>
+            <select class="mr-3" id="availableCars"></select>
+            <input class="btn btn-primary" type="submit" onclick="book()" value="!!!Book now!!!"/>
+        </form>
+    </div>
+    <div class="row m-3">
+        <div id="booking">
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="./style/bootstrap/js/bootstrap.min.js"></script>
+<script src="./js/script.js"></script>
+</html>

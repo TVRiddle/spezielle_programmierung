@@ -10,7 +10,7 @@ class BookingList(list):
     # add a booking into the list
     def addBooking(self, booking):
         for booking_list in self.bookings:
-            if booking_list.car.name == booking.car.name:
+            if booking_list.car_name == booking.car_name:
                 return False
         self.bookings.append(booking)
         return True
