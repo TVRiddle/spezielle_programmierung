@@ -11,7 +11,7 @@ function loadData() {
     for (let i = 0; i < result.length; i++) {
         let customer = result[i];
         let option = document.createElement("option");
-        let name = customer.first_name + "," + customer.last_name;
+        let name = customer._id;
         option.value = name;
         option.innerHTML = name;
         customerSelect.append(option);
@@ -86,7 +86,7 @@ function showCustomers() {
         let historyButton = document.createElement('button');
         historyButton.innerHTML = "show history";
         historyButton.classList = "btn btn-info";
-        historyButton.setAttribute("data-id", customer.first_name + "," + customer.last_name);
+        historyButton.setAttribute("data-id", customer._id);
         historyButton.addEventListener("click", toggleHistory)
         historyButton.tagName = "historyButton"
         tdHistoryButton.append(historyButton);
@@ -117,10 +117,9 @@ function toggleHistory() {
     }
 
     function showHistory(button) {
-        let firstName = button.getAttribute("data-id").split(",")[0];
-        let lastName = button.getAttribute("data-id").split(",")[1];
+        let customer_id = button.getAttribute("data-id");
 
-        let result = JSON.parse(httpGet("/api/customer/" + firstName + "/" + lastName + "/history"));
+        let result = JSON.parse(httpGet("/api/customer/" + customer_id + "/history"));
 
         let newTable = document.createElement("table");
         newTable.classList = "table-dark";
@@ -154,12 +153,10 @@ function toggleHistory() {
 }
 
 function book() {
-    let customer = document.getElementById("availableCustomers").value;
-    let firstName = customer.split(",")[0];
-    let lastName = customer.split(",")[1];
-    let car = document.getElementById("availableCars").value;
+    let customer_id = document.getElementById("availableCustomers").value;
+    let car_id = document.getElementById("availableCars").value;
 
-    let result = httpGet("/api/customer/" + firstName + "/" + lastName + "/book/" + car);
+    let result = httpGet("/api/customer/" + customer_id + "/book/" + car_id);
 
     if (result == "true") {
         alert("Juhu Buchung vorgenommen ;)");
