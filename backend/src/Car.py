@@ -9,11 +9,10 @@ class Car:
         self.color = color
         self.number_of_seats = number_of_seats
         self.brand = brand
-        self.is_booked = False
 
     # define string function
     def __str__(self):
-        return "{} {} {} {} {}".format(self.name, self.color, self.number_of_seats, self.brand, self.is_booked)
+        return "{} {} {} {}".format(self.name, self.color, self.number_of_seats, self.brand)
 
     # mapping the Car data in JSON format
     def to_json(self):

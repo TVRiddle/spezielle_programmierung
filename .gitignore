@@ -6,5 +6,5 @@
 *.pyc
 
 # Datenbank ausschließen
-**/db
+/db
 *.wt
