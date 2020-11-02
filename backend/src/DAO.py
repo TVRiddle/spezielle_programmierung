@@ -5,13 +5,12 @@ import datetime
 
 from bson import ObjectId
 from pymongo import MongoClient
-from flask import jsonify
 from Booking import Booking
 from BookingDTO import BookingDTO
 
 MONGODB_HOST = 'mongodb://root:example@mongoDB:27017'
 ### DB zum debuggen
-#MONGODB_HOST = 'mongodb://root:example@localhost:4444'
+# MONGODB_HOST = 'mongodb://root:example@localhost:4444'
 
 client = MongoClient(MONGODB_HOST)
 db = client.RentMe
@@ -57,6 +56,7 @@ def getHistory(customer_id):
     bookings = db.bookings.find({"customer_id": ObjectId(customer_id)})
     bookingList = []
     for booking in bookings:
+        print(booking)
         car_id = booking["car_id"]
         name = db.cars.find_one({"_id": ObjectId(car_id)})["name"]
         bookingList.append(BookingDTO(name, booking["start"].timestamp(), booking["end"].timestamp()).__dict__)
@@ -64,11 +64,11 @@ def getHistory(customer_id):
 
 
 def insertBooking(booking):
-    db.bookings.insert_one(jsonify(booking))
+    db.bookings.insert_one(booking.__dict__)
 
 
 def isCarAvailable(car_id):
-    return db.bookings.count_documents({'car_id': car_id}) == 0
+    return db.bookings.count_documents({'car_id': ObjectId(car_id)}) == 0
 
 
 def getCarName(car_id):

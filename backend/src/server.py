@@ -26,7 +26,10 @@ def get_all_cars():
 
 @app.route('/customer/<customer_id>/book/<car_id>', methods=["GET"])
 def book_car(customer_id, car_id):
+    print(customer_id)
+    print(car_id)
     if DAO.isCarAvailable(car_id):
+        print("gothere")
         new_booking = Booking(car_id, customer_id, now, now + datetime.timedelta(random.randint(1, 100)))
         DAO.insertBooking(new_booking)
         return "true"
@@ -39,9 +42,10 @@ def get_history(customer_id):
     result = DAO.getHistory(customer_id)
     return dumps(result)
 
+
 if __name__ == '__main__':
     # imports testData
-    #DAO.putTestDataToDB()
+    DAO.putTestDataToDB()
     # Start webserver
     for i in range(100):
         try:
