@@ -87,7 +87,6 @@ function showCustomers() {
         historyButton.innerHTML = "show history";
         historyButton.classList = "btn btn-info";
         historyButton.setAttribute("data-id", customer._id.$oid);
-        console.log(customer._id.$oid);
 
         historyButton.addEventListener("click", toggleHistory)
         historyButton.tagName = "historyButton"
@@ -133,9 +132,9 @@ function toggleHistory() {
             let carName = document.createElement('td');
             carName.innerHTML = history.car_name;
             let start = document.createElement('td');
-            start.innerHTML = history.start;
+            start.innerHTML = new Date(history.start * 1000);
             let end = document.createElement('td');
-            end.innerHTML = history.end;
+            end.innerHTML = new Date(history.end * 1000);
 
             historyElement.append(carName);
             historyElement.append(start);

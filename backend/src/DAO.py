@@ -7,9 +7,9 @@ from bson import ObjectId
 from pymongo import MongoClient
 from flask import jsonify
 from Booking import Booking
+from BookingDTO import BookingDTO
 
 MONGODB_HOST = 'mongodb://root:example@mongoDB:27017'
-
 ### DB zum debuggen
 #MONGODB_HOST = 'mongodb://root:example@localhost:4444'
 
@@ -33,13 +33,12 @@ def putTestDataToDB():
 
         for customer in customers_import:
             cars = db.cars.find({})
+            id = db.customers.insert_one(customer).inserted_id
             for car in cars:
                 if isCarAvailable(car["_id"]):
-                    new_booking = Booking(car["_id"], now, now + datetime.timedelta(random.randint(1, 100)))
-                    bookings = [new_booking]
-                    customer["booking"] = bookings
+                    new_booking = Booking(car["_id"], id, now, now + datetime.timedelta(random.randint(1, 100)))
+                    db.bookings.insert_one(new_booking.__dict__)
                     break
-            db.customers.insert_one(customer)
 
 
 def getAllCustomers():
@@ -55,7 +54,13 @@ def getAllCars():
 
 
 def getHistory(customer_id):
-    return list(db.bookings.find({"customer_id": ObjectId(customer_id)}))
+    bookings = db.bookings.find({"customer_id": ObjectId(customer_id)})
+    bookingList = []
+    for booking in bookings:
+        car_id = booking["car_id"]
+        name = db.cars.find_one({"_id": ObjectId(car_id)})["name"]
+        bookingList.append(BookingDTO(name, booking["start"].timestamp(), booking["end"].timestamp()).__dict__)
+    return list(bookingList)
 
 
 def insertBooking(booking):
@@ -64,3 +69,7 @@ def insertBooking(booking):
 
 def isCarAvailable(car_id):
     return db.bookings.count_documents({'car_id': car_id}) == 0
+
+
+def getCarName(car_id):
+    return db.cars.find_one({'_id': ObjectId(car_id)})["car_name"]

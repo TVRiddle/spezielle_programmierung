@@ -8,6 +8,8 @@ services:
       context: ./backend
       dockerfile: dockerfile
     image: backend
+    ports:
+      - 8082:4000
     networks:
       - spezprog-network 
   webapp:

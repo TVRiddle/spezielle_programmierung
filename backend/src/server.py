@@ -36,13 +36,12 @@ def book_car(customer_id, car_id):
 
 @app.route('/customer/<customer_id>/history')
 def get_history(customer_id):
-    bookings = DAO.getHistory(customer_id)
-    return dumps(bookings)
-
+    result = DAO.getHistory(customer_id)
+    return dumps(result)
 
 if __name__ == '__main__':
     # imports testData
-    DAO.putTestDataToDB()
+    #DAO.putTestDataToDB()
     # Start webserver
     for i in range(100):
         try:
