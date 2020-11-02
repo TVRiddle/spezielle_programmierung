@@ -1,5 +1,7 @@
 FROM python:3
 RUN pip install flask
+RUN pip install pymongo
+RUN pip install mongojoin
 WORKDIR /usr/src/app
 ADD ./src/ /usr/src/app/
 CMD ["python","-u","server.py" ]

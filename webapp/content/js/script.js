@@ -11,7 +11,7 @@ function loadData() {
     for (let i = 0; i < result.length; i++) {
         let customer = result[i];
         let option = document.createElement("option");
-        let name = customer._id;
+        let name = customer.first_name + ", " + customer.last_name;
         option.value = name;
         option.innerHTML = name;
         customerSelect.append(option);
@@ -86,7 +86,9 @@ function showCustomers() {
         let historyButton = document.createElement('button');
         historyButton.innerHTML = "show history";
         historyButton.classList = "btn btn-info";
-        historyButton.setAttribute("data-id", customer._id);
+        historyButton.setAttribute("data-id", customer._id.$oid);
+        console.log(customer._id.$oid);
+
         historyButton.addEventListener("click", toggleHistory)
         historyButton.tagName = "historyButton"
         tdHistoryButton.append(historyButton);

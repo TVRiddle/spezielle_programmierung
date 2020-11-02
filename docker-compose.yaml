@@ -28,7 +28,7 @@ services:
     depends_on: 
       - mongo
     image: mongo-express
-    container_name: db
+    container_name: db-frontend
     restart: always
     ports:
         - 8081:8081
@@ -39,7 +39,7 @@ services:
         ME_CONFIG_MONGODB_ADMINPASSWORD: example 
   mongo:
       image: mongo
-      container_name: mongo
+      container_name: mongoDB
       restart: always
       environment:
           MONGO_INITDB_ROOT_USERNAME: root
