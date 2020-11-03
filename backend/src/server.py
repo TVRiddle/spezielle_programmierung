@@ -14,13 +14,18 @@ now = datetime.datetime.now()
 
 @app.route('/customers')
 def get_all_customers():
-    customers = DAO.getAllCustomers()
+    customers = DAO.get_all_customers()
     return dumps(customers)
 
 
 @app.route('/cars')
 def get_all_cars():
-    cars = DAO.getAllCars()
+    cars = DAO.get_all_cars()
+    return dumps(cars)
+
+@app.route('/cars/available')
+def get_all_cars_available():
+    cars = DAO.get_all_available_cars()
     return dumps(cars)
 
 
@@ -28,10 +33,10 @@ def get_all_cars():
 def book_car(customer_id, car_id):
     print(customer_id)
     print(car_id)
-    if DAO.isCarAvailable(car_id):
+    if DAO.is_car_available(car_id):
         print("gothere")
         new_booking = Booking(car_id, customer_id, now, now + datetime.timedelta(random.randint(1, 100)))
-        DAO.insertBooking(new_booking)
+        DAO.insert_booking(new_booking)
         return "true"
     else:
         return "false"
@@ -39,13 +44,13 @@ def book_car(customer_id, car_id):
 
 @app.route('/customer/<customer_id>/history')
 def get_history(customer_id):
-    result = DAO.getHistory(customer_id)
+    result = DAO.get_history(customer_id)
     return dumps(result)
 
 
 if __name__ == '__main__':
     # imports testData
-    DAO.putTestDataToDB()
+    DAO.put_test_data_to_db()
     # Start webserver
     for i in range(100):
         try:
