@@ -10,9 +10,10 @@ function loadData() {
 
     for (let i = 0; i < result.length; i++) {
         let customer = result[i];
+        console.log(customer)
         let option = document.createElement("option");
-        let name = customer.first_name + "," + customer.last_name;
-        option.value = name;
+        let name = customer.first_name + ", " + customer.last_name;
+        option.value = customer._id.$oid;
         option.innerHTML = name;
         customerSelect.append(option);
     }
@@ -20,13 +21,14 @@ function loadData() {
     // Load free cars
     let carsSelect = document.getElementById("availableCars");
     carsSelect.innerHTML = "";
-    result = JSON.parse(httpGet("/api/cars"));
+    result = JSON.parse(httpGet("/api/cars/available"));
     for (let i = 0; i < result.length; i++) {
         let car = result[i];
+        console.log(car)
         if (!car.is_booked) {
             let option = document.createElement("option");
             let name = car.name;
-            option.value = name;
+            option.value = car._id.$oid;
             option.innerHTML = name;
             carsSelect.append(option);
         }
@@ -52,7 +54,7 @@ function showCars() {
         let color = document.createElement('td');
         color.innerHTML = car.color;
         let booked = document.createElement('td');
-        booked.innerHTML = car.is_booked;
+        booked.innerHTML = httpGet("/api/car/booked/" + car._id.$oid);
         let seats = document.createElement('td');
         seats.innerHTML = car.number_of_seats;
         carElement.append(name);
@@ -86,7 +88,8 @@ function showCustomers() {
         let historyButton = document.createElement('button');
         historyButton.innerHTML = "show history";
         historyButton.classList = "btn btn-info";
-        historyButton.setAttribute("data-id", customer.first_name + "," + customer.last_name);
+        historyButton.setAttribute("data-id", customer._id.$oid);
+
         historyButton.addEventListener("click", toggleHistory)
         historyButton.tagName = "historyButton"
         tdHistoryButton.append(historyButton);
@@ -117,10 +120,9 @@ function toggleHistory() {
     }
 
     function showHistory(button) {
-        let firstName = button.getAttribute("data-id").split(",")[0];
-        let lastName = button.getAttribute("data-id").split(",")[1];
+        let customer_id = button.getAttribute("data-id");
 
-        let result = JSON.parse(httpGet("/api/customer/" + firstName + "/" + lastName + "/history"));
+        let result = JSON.parse(httpGet("/api/customer/" + customer_id + "/history"));
 
         let newTable = document.createElement("table");
         newTable.classList = "table-dark";
@@ -132,9 +134,9 @@ function toggleHistory() {
             let carName = document.createElement('td');
             carName.innerHTML = history.car_name;
             let start = document.createElement('td');
-            start.innerHTML = history.start;
+            start.innerHTML = new Date(history.start * 1000);
             let end = document.createElement('td');
-            end.innerHTML = history.end;
+            end.innerHTML = new Date(history.end * 1000);
 
             historyElement.append(carName);
             historyElement.append(start);
@@ -154,12 +156,10 @@ function toggleHistory() {
 }
 
 function book() {
-    let customer = document.getElementById("availableCustomers").value;
-    let firstName = customer.split(",")[0];
-    let lastName = customer.split(",")[1];
-    let car = document.getElementById("availableCars").value;
+    let customer_id = document.getElementById("availableCustomers").value;
+    let car_id = document.getElementById("availableCars").value;
 
-    let result = httpGet("/api/customer/" + firstName + "/" + lastName + "/book/" + car);
+    let result = httpGet("/api/customer/" + customer_id + "/book/" + car_id);
 
     if (result == "true") {
         alert("Juhu Buchung vorgenommen ;)");
