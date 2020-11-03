@@ -54,7 +54,7 @@ function showCars() {
         let color = document.createElement('td');
         color.innerHTML = car.color;
         let booked = document.createElement('td');
-        booked.innerHTML = car.is_booked;
+        booked.innerHTML = httpGet("/api/car/booked/" + car._id.$oid);
         let seats = document.createElement('td');
         seats.innerHTML = car.number_of_seats;
         carElement.append(name);

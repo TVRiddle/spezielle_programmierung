@@ -1,8 +1,6 @@
 from flask import Flask
-from Booking import Booking
 
 import datetime
-import random
 from bson.json_util import dumps
 
 import DAO
@@ -23,10 +21,19 @@ def get_all_cars():
     cars = DAO.get_all_cars()
     return dumps(cars)
 
+
 @app.route('/cars/available')
 def get_all_cars_available():
     cars = DAO.get_all_available_cars()
     return dumps(cars)
+
+
+@app.route('/car/booked/<car_id>')
+def car_booked(car_id):
+    if not DAO.is_car_available(car_id):
+        return "true"
+    else:
+        return "false"
 
 
 @app.route('/customer/<customer_id>/book/<car_id>', methods=["GET"])
