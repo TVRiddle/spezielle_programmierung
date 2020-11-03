@@ -24,7 +24,7 @@ data_have_to_be_loaded = True
 now = datetime.datetime.now()
 
 # define a client to connect to the database
-client = MongoClient('mongodb://root:example@localhost:4444/rent_me?admin=true')
+client = MongoClient('mongodb://root:example@localhost:4444/rent_me')
 # database variable
 rent_me_db = client['rent_me']  # client.rent_me
 
