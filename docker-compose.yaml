@@ -45,7 +45,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     networks:
-      - mongo-network
+      - spezprog-network
     ports:
       - 4444:27017
     volumes:
