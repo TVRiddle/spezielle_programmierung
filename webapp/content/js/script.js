@@ -10,7 +10,6 @@ function loadData() {
 
     for (let i = 0; i < result.length; i++) {
         let customer = result[i];
-        console.log(customer)
         let option = document.createElement("option");
         let name = customer.first_name + ", " + customer.last_name;
         option.value = customer._id.$oid;
@@ -24,7 +23,6 @@ function loadData() {
     result = JSON.parse(httpGet("/api/cars/available"));
     for (let i = 0; i < result.length; i++) {
         let car = result[i];
-        console.log(car)
         if (!car.is_booked) {
             let option = document.createElement("option");
             let name = car.name;

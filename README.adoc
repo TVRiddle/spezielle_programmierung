@@ -16,6 +16,18 @@ als visuelle Oberfläche, damit die Daten besser eingesehen werden können.
 Die Datenbank und die Oberfläche wurden dem erstellten Netzwerk hinzugefügt und laufen neben den anderen Docker
 Containern.
 
+=== Änderungen Backend
+
+Sämtliche Kommunikation bezüglich Daten werden in die Datenbank geschrieben und über sie abgerufen. Die Schnittstellen
+auf dem Backendserver wurden angepasst. Eine `DAO-Klasse` (DataAccessObject) für die Kommunikation mit der Datenbank wurde erstellt.
+
+Um einen datenbanks `join` zu simmulieren wurde ein `DTO` (DataTransferObject) erstellt, dass die Informationen aus der Booking, Car und
+Customertabelle vereint.
+
+=== Änderungen Frontend
+
+Da die Änderungen nur das Backend betroffen haben, hat sich im Frontend nichts geändert.
+
 == Lecture Sheet 3
 
 === Einsatz von Docker
