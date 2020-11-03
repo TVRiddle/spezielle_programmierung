@@ -10,7 +10,7 @@ from BookingDTO import BookingDTO
 
 MONGODB_HOST = 'mongodb://root:example@mongoDB:27017'
 ### DB zum debuggen
-#MONGODB_HOST = 'mongodb://root:example@localhost:4444'
+# MONGODB_HOST = 'mongodb://root:example@localhost:4444'
 
 client = MongoClient(MONGODB_HOST)
 db = client.RentMe
@@ -73,8 +73,14 @@ def get_history(customer_id):
     return list(booking_list)
 
 
-def insert_booking(booking):
-    db.bookings.insert_one(booking.__dict__)
+def insert_booking(customer_id, car_id):
+    if is_car_available(car_id):
+        new_booking = Booking(ObjectId(car_id), ObjectId(customer_id), now,
+                              now + datetime.timedelta(random.randint(1, 100)))
+        db.bookings.insert_one(new_booking.__dict__)
+        return True
+    else:
+        return False
 
 
 def is_car_available(car_id):

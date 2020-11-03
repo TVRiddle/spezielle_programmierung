@@ -31,12 +31,7 @@ def get_all_cars_available():
 
 @app.route('/customer/<customer_id>/book/<car_id>', methods=["GET"])
 def book_car(customer_id, car_id):
-    print(customer_id)
-    print(car_id)
-    if DAO.is_car_available(car_id):
-        print("gothere")
-        new_booking = Booking(car_id, customer_id, now, now + datetime.timedelta(random.randint(1, 100)))
-        DAO.insert_booking(new_booking)
+    if DAO.insert_booking(customer_id, car_id):
         return "true"
     else:
         return "false"
