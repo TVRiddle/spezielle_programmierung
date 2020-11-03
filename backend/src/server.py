@@ -12,6 +12,8 @@ import json
 import datetime
 import random
 
+from pymongo import MongoClient
+
 app = Flask(__name__)
 
 customers = []
@@ -21,8 +23,18 @@ data_have_to_be_loaded = True
 
 now = datetime.datetime.now()
 
+# define a client to connect to the database
+client = MongoClient('mongodb://root:example@localhost:4444/rent_me?admin=true')
+# database variable
+rent_me_db = client['rent_me']  # client.rent_me
+
+
+# connection = MongoClient('localhost', 4444)
+# db = connection['rent_me']
+# db.authenticate('root', 'example')
 
 def load_json():
+    client.server_info()
     if (len(cars) == 0):
         SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
         json_url = os.path.join(SITE_ROOT, "resources", "car_data.json")
@@ -31,10 +43,19 @@ def load_json():
             cars_import = data["cars"]
             customers_import = data["customers"]
 
+            # collection variable for storing cars data
+            cars_collection = rent_me_db.cars
+
             for car in cars_import:
                 new_car = Car(car["name"], car["color"],
                               car["number_of_seats"], car["brand"])
                 cars.append(new_car)
+
+                # store into the database
+                insert_msg = cars_collection.insert_one(new_car)
+
+                # id returned by insert_one
+                print("Document inserted with id: ", insert_msg.inserted_id)
 
             for customer in customers_import:
                 new_Customer = Customer(
@@ -89,6 +110,8 @@ def get_history(first_name, last_name):
 
 
 if __name__ == '__main__':
+    # print(client.list_database_names())
+    # print(db.__str__())
     # Start webserver
     for i in range(100):
         try:

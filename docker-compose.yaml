@@ -1,6 +1,8 @@
 version: '3'
 services:
   backend:
+    depends_on:
+      - mongo
     container_name: backend
     build:
       context: ./backend
@@ -9,6 +11,8 @@ services:
     networks:
       - spezprog-network
   webapp:
+    depends_on:
+      - backend
     container_name: web
     build:
       context: ./webapp
@@ -17,9 +21,35 @@ services:
     networks:
       - spezprog-network
     ports:
-      -  8080:80
+      - 8080:80
     volumes:
       - "./webapp/content/:/usr/share/nginx/html"
+  mongo-express:
+    depends_on:
+      - mongo
+    image: mongo-express
+    container_name: db
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - spezprog-network
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - mongo-network
+    ports:
+      - 4444:27017
+    volumes:
+      - "./db/data:/data/db"
 networks:
-    spezprog-network:
-         name: spezprog-network
+  spezprog-network:
+    name: spezprog-network
