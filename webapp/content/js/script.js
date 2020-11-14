@@ -3,38 +3,58 @@ Element.prototype.remove = function () {
 }
 
 function loadData() {
-    // Load customers
+    loadCustomers();
+    loadCars();
+}
+
+async function loadCustomers() {
+
     let customerSelect = document.getElementById("availableCustomers");
     customerSelect.innerHTML = "";
-    let result = JSON.parse(httpGet("/api/customers"));
+
+    let response = await fetch('https://qtp2cz8ii1.execute-api.eu-central-1.amazonaws.com/Customers', {
+        method: 'POST',
+        body: "{\"method\": \"customers\"}"
+    });
+    let result = await response.json();
 
     for (let i = 0; i < result.length; i++) {
         let customer = result[i];
         let option = document.createElement("option");
         let name = customer.first_name + ", " + customer.last_name;
-        option.value = customer._id.$oid;
+        option.value = customer.ID;
         option.innerHTML = name;
         customerSelect.append(option);
     }
 
-    // Load free cars
+}
+
+async function loadCars() {
     let carsSelect = document.getElementById("availableCars");
     carsSelect.innerHTML = "";
-    result = JSON.parse(httpGet("/api/cars/available"));
+    let response = await fetch('https://qtp2cz8ii1.execute-api.eu-central-1.amazonaws.com/Cars', {
+        method: 'POST',
+        body: "{\"method\": \"available\"}"
+    });
+    let result = await response.json();
     for (let i = 0; i < result.length; i++) {
         let car = result[i];
         if (!car.is_booked) {
             let option = document.createElement("option");
             let name = car.name;
-            option.value = car._id.$oid;
+            option.value = car.ID;
             option.innerHTML = name;
             carsSelect.append(option);
         }
     }
 }
 
-function showCars() {
-    let result = JSON.parse(httpGet("/api/cars"));
+async function showCars() {
+    let response = await fetch('https://qtp2cz8ii1.execute-api.eu-central-1.amazonaws.com/Cars', {
+        method: 'POST',
+        body: "{\"method\": \"cars\"}"
+    });
+    let result = await response.json();
     let table = document.getElementById("cars");
     if (table.hasChildNodes()) {
         table.innerHTML = "";
@@ -52,7 +72,7 @@ function showCars() {
         let color = document.createElement('td');
         color.innerHTML = car.color;
         let booked = document.createElement('td');
-        booked.innerHTML = httpGet("/api/car/booked/" + car._id.$oid);
+        booked.innerHTML = car.booked;
         let seats = document.createElement('td');
         seats.innerHTML = car.number_of_seats;
         carElement.append(name);
@@ -65,8 +85,12 @@ function showCars() {
     }
 }
 
-function showCustomers() {
-    let result = JSON.parse(httpGet("/api/customers"));
+async function showCustomers() {
+    let response = await fetch('https://qtp2cz8ii1.execute-api.eu-central-1.amazonaws.com/Customers', {
+        method: 'POST',
+        body: "{\"method\": \"customers\"}"
+    });
+    let result = await response.json();
 
     let table = document.getElementById("customers");
     if (table.hasChildNodes()) {
@@ -86,7 +110,7 @@ function showCustomers() {
         let historyButton = document.createElement('button');
         historyButton.innerHTML = "show history";
         historyButton.classList = "btn btn-info";
-        historyButton.setAttribute("data-id", customer._id.$oid);
+        historyButton.setAttribute("data-id", customer.ID);
 
         historyButton.addEventListener("click", toggleHistory)
         historyButton.tagName = "historyButton"
@@ -117,10 +141,14 @@ function toggleHistory() {
         customer.parentElement.removeChild(toRemove);
     }
 
-    function showHistory(button) {
+    async function showHistory(button) {
         let customer_id = button.getAttribute("data-id");
 
-        let result = JSON.parse(httpGet("/api/customer/" + customer_id + "/history"));
+        let response = await fetch('https://qtp2cz8ii1.execute-api.eu-central-1.amazonaws.com/Customers', {
+            method: 'POST',
+            body: "{\"method\": \"history\",\"customer_id\": " + customer_id + "}"
+        });
+        let result = await response.json();
 
         let newTable = document.createElement("table");
         newTable.classList = "table-dark";
@@ -153,26 +181,22 @@ function toggleHistory() {
     }
 }
 
-function book() {
+async function book() {
     let customer_id = document.getElementById("availableCustomers").value;
     let car_id = document.getElementById("availableCars").value;
 
-    let result = httpGet("/api/customer/" + customer_id + "/book/" + car_id);
+    let response = await fetch('https://qtp2cz8ii1.execute-api.eu-central-1.amazonaws.com/Bookings', {
+        method: 'POST',
+        body: "{\"method\": \"book\",\"customer_id\": " + customer_id + ",\"car_id\": " + car_id + "}"
+    });
+    let result = await response.json();
 
-    if (result == "true") {
+    if (result['success'] == "true") {
         alert("Juhu Buchung vorgenommen ;)");
     } else {
         alert("Que pena eres tu! Ahora se te jaman Carlos");
     }
     loadData();
-}
-
-function httpGet(url) {
-    console.log("Send request to -> " + url);
-    let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", url, false);
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
 }
 
 function getHeader(kind) {
