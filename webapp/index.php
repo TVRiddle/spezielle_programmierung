@@ -1,2 +1,2 @@
 <?php
-header("Location: ./content/index.html");
+header("Location: ./content/index.html?#");
