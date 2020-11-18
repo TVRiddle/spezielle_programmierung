@@ -24,9 +24,9 @@ konnten wir auch hier weitgehend übernehmen.
 
 === API Gateway
 
-Dnach haben wir ein API Gateway erstellt und unsere Routen definiert und mit den Lambda Funktionen verknüpft.
+Danch haben wir ein API Gateway erstellt und unsere Routen definiert und mit den Lambda Funktionen verknüpft.
 
-Aus unserem Frontend können wir nun auf die API zugreifen.
+Aus unserem https://spezprog.tvriddle.de[Frontend] können wir nun auf die API zugreifen.
 
 == Lecture Sheet 4
 
