@@ -6,7 +6,11 @@
 :author: Ostrzinski Christoph <s0568880@htw-berlin.de>
 :author: Matthias Kronenberg <s0571096@htw-berlin.de>
 
-== Lecture Sheet 5
+== Lecture Sheet 7
+
+Wir haben einen AWS S3 Bucket angelegt und diesen per AWS cloudfront mit Routen verknüpft. Über die entsprechende Adresse kann das Frontend jetzt aufgerufen werden.
+
+== Lecture Sheet 5 + 6
 
 === Migration
 
